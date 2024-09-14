@@ -1,25 +1,21 @@
+"use client"
 import React, { useState } from 'react';
-import { AiChat } from '@nlux/react';
 
-interface AiChatProps {
-  jupyterOutput: string;
-  onChatInputChange: (input: string) => void;
-}
+const AiChatComponent = ({ inputValue, onInputChange }: { inputValue: string, onInputChange: (input: string) => void }) => {
+  const [chatInput, setChatInput] = useState(inputValue);
 
-const AiChatComponent: React.FC<AiChatProps> = ({ jupyterOutput, onChatInputChange }) => {
-  const [chatInput, setChatInput] = useState<string>('');
-
-  const handleChatChange = (newInput: string) => {
-    setChatInput(newInput);
-    onChatInputChange(newInput);  // передача данных в App
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setChatInput(e.target.value);
+    onInputChange(e.target.value); // Передаем данные в родительский компонент
   };
 
   return (
     <div>
-      <AiChat initialMessage={chatInput} />
-      <button onClick={() => handleChatChange(jupyterOutput)}>
-        Insert Jupyter Output into Chat
-      </button>
+      <textarea
+        value={chatInput}
+        onChange={handleInputChange}
+        placeholder="Enter your message"
+      />
     </div>
   );
 };
