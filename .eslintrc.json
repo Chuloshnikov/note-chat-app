@@ -1,0 +1,12 @@
+{
+    "extends": [
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "plugins": ["react", "@typescript-eslint"],
+    "rules": {
+      "no-console": "warn",
+      "react/prop-types": "off",
+      "@typescript-eslint/no-unused-vars": "warn"
+    }
+  }
