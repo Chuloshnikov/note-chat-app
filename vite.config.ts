@@ -1,7 +1,24 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  plugins: [
+    react()
+  ],
+  optimizeDeps: {
+    exclude: [
+      '@jupyterlite/pyodide-kernel-extension',
+      '!!raw-loader!@jupyterlab/theme-light-extension/style/variables.css',
+      '!!raw-loader!@jupyterlab/theme-dark-extension/style/variables.css',
+    ],
+  },
+  build: {
+    rollupOptions: {
+      external: [
+        '!!raw-loader!@jupyterlab/theme-light-extension/style/variables.css',
+        '!!raw-loader!@jupyterlab/theme-dark-extension/style/variables.css',
+        '@jupyterlite/pyodide-kernel-extension',
+      ],
+    },
+  },
+});
