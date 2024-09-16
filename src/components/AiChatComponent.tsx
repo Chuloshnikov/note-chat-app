@@ -1,21 +1,28 @@
-"use client"
+
 import React, { useState } from 'react';
+import { AiChat } from '@nlux/react';
 
-const AiChatComponent = ({ inputValue, onInputChange }: { inputValue: string, onInputChange: (input: string) => void }) => {
-  const [chatInput, setChatInput] = useState(inputValue);
+interface AiChatProps {
+  onMessageSend: (message: string) => void;
+}
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setChatInput(e.target.value);
-    onInputChange(e.target.value); // Передаем данные в родительский компонент
+const AiChatComponent: React.FC<AiChatProps> = ({ onMessageSend }) => {
+  const [message, setMessage] = useState('');
+
+  const handleSend = () => {
+    onMessageSend(message);
+    setMessage('');
   };
 
   return (
     <div>
-      <textarea
-        value={chatInput}
-        onChange={handleInputChange}
-        placeholder="Enter your message"
+      <AiChat onMessageSend={handleSend} />
+      <input 
+        type="text" 
+        value={message} 
+        onChange={(e) => setMessage(e.target.value)} 
       />
+      <button onClick={handleSend}>Send</button>
     </div>
   );
 };
