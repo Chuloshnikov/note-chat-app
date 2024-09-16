@@ -1,32 +1,39 @@
 "use client"
-import { useState } from 'react';
-import styles from "./page.module.css";
-import JupyterComponent from '../components/JupyterComponent';
-import AiChatComponent from '../components/AiChatComponent';
+import JupyterNotebook from '../components/JupyterNotebook';
+import AiChat from '../components/AiChatComponent';
 
 export default function Home() {
-  const [jupyterOutput, setJupyterOutput] = useState('');
-  const [chatInput, setChatInput] = useState('');
+  const [jupyterCode, setJupyterCode] = useState('');
+  const [aiChatMessage, setAiChatMessage] = useState('');
 
-  const handleJupyterOutputChange = (output: string) => {
-    setChatInput(output); // Обновляем чат, когда меняется вывод Jupyter
+  const handleJupyterCodeChange = (code: string) => {
+    setJupyterCode(code);
   };
 
-  const handleChatInputChange = (input: string) => {
-    setJupyterOutput(input); // При изменении чата обновляем вывод Jupyter
+  const handleAiChatMessageSend = (message: string) => {
+    setAiChatMessage(message);
+  };
+
+  const handleSendToAiChat = () => {
+    // Тут логика для отправки данных из Jupyter в AiChat
+    setAiChatMessage(jupyterCode);
+  };
+
+  const handleSendToJupyter = () => {
+    // Тут логика для отправки данных из AiChat в Jupyter
+    setJupyterCode(aiChatMessage);
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <div style={{ width: '50%' }}>
-        <h2>Jupyter Notebook</h2>
-        <JupyterComponent onOutputChange={handleJupyterOutputChange} />
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: 1 }}>
+        <JupyterNotebook onCodeChange={handleJupyterCodeChange} />
+        <button onClick={handleSendToAiChat}>Send to AiChat</button>
       </div>
-      <div style={{ width: '50%' }}>
-        <h2>AI Chat</h2>
-        <AiChatComponent inputValue={chatInput} onInputChange={handleChatInputChange} />
+      <div style={{ flex: 1 }}>
+        <AiChat onMessageSend={handleAiChatMessageSend} />
+        <button onClick={handleSendToJupyter}>Send to Jupyter</button>
       </div>
     </div>
   );
-};
-
+}
